@@ -1,0 +1,44 @@
+{
+    "cells": [
+        {
+            "language": "typescript",
+            "source": [
+                "// part 1\r\nimport fs from 'fs';\r\n\r\nlet data;\r\n\r\ntry {\r\n    data = fs.readFileSync('./inputs/day1.txt', 'utf8');\r\n} catch(e) {\r\n    console.error(\"No file found\");\r\n}\r\n\r\nconst mostFood = data.split('\\n\\n') // split by elf\r\n    .map(group => group.split('\\n') // split by food item\r\n    .reduce((acc, cur) => acc += Number(cur), 0)) // sum number of calories\r\n    .map((v, i) => [i, v]) // save the index of the elf with the id\r\n    .sort(([ai, av], [bi, bv]) => bv - av) // sort by calories\r\n    [0][1]; // get the largets number of calories\r\n\r\nconsole.log(mostFood);"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "71502",
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "// part 2\r\nimport fs from 'fs';\r\n\r\nlet data;\r\n\r\ntry {\r\n    data = fs.readFileSync('./inputs/day1.txt', 'utf8');\r\n} catch(e) {\r\n    console.error(\"No file found\");\r\n}\r\n\r\nconst top3 = data.split('\\n\\n') // split by elf\r\n    .map(group => group.split('\\n') // split by food item\r\n    .reduce((acc, cur) => acc += Number(cur), 0)) // sum number of calories\r\n    .map((v, i) => [i, v]) // save the index of the elf with the id\r\n    .sort(([ai, av], [bi, bv]) => bv - av) // sort by calories\r\n    .splice(0, 3)\r\n\r\nconsole.log(top3.reduce((acc, [i, v]) => acc += v, 0))"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "208191",
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

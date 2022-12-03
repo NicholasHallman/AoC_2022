@@ -1,0 +1,44 @@
+{
+    "cells": [
+        {
+            "language": "typescript",
+            "source": [
+                "// part 1\r\nimport fs from 'fs';\r\n\r\nlet data;\r\n\r\ntry {\r\n    data = fs.readFileSync('./inputs/day2.txt', 'utf8');\r\n} catch(e) {\r\n    console.error(\"No file found\");\r\n}\r\n\r\nconst rounds = data.split('\\n').map(pair => pair.split(' '));\r\n\r\nconst WIN = 6;\r\nconst DRAW = 3;\r\nconst LOSS = 0;\r\n\r\nconst NAME = {\r\n    'A': 'ROCK',\r\n    'X': 'ROCK',\r\n    'B': 'PAPER',\r\n    'Y': 'PAPER',\r\n    'C': 'SCISSORS',\r\n    'Z': 'SCISSORS'\r\n}\r\n\r\nconst OPPONENT = {\r\n    ROCK: 'A',\r\n    PAPER: 'B',\r\n    SCISSORS: 'C'\r\n}\r\n\r\nconst ME = {\r\n    ROCK: 'X',\r\n    PAPER: 'Y',\r\n    SCISSORS: 'Z'\r\n}\r\n\r\nconst POINTS = {\r\n    'X': 1,\r\n    'Y': 2,\r\n    'Z': 3\r\n}\r\n\r\nconst outcomes = {\r\n    [ME.ROCK]: {\r\n        [OPPONENT.ROCK]: DRAW, \r\n        [OPPONENT.PAPER]: LOSS,\r\n        [OPPONENT.SCISSORS]: WIN\r\n    },\r\n    [ME.PAPER]: {\r\n        [OPPONENT.ROCK]: WIN,\r\n        [OPPONENT.PAPER]: DRAW,\r\n        [OPPONENT.SCISSORS]: LOSS\r\n    },\r\n    [ME.SCISSORS]: {\r\n        [OPPONENT.ROCK]: LOSS,\r\n        [OPPONENT.PAPER]: WIN,\r\n        [OPPONENT.SCISSORS]: DRAW\r\n    }\r\n}\r\n\r\nconst calcRoundScore = (me, opp) => {\r\n    return outcomes[me][opp] + POINTS[me];\r\n}\r\n\r\nconsole.log(rounds.reduce((acc, [opp, me]) => acc += calcRoundScore(me, opp), 0));"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "13565",
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "// part 1\r\nimport fs from 'fs';\r\n\r\nlet data;\r\n\r\ntry {\r\n    data = fs.readFileSync('./inputs/day2.txt', 'utf8');\r\n} catch(e) {\r\n    console.error(\"No file found\");\r\n}\r\n\r\nconst rounds = data.split('\\n').map(pair => pair.split(' '));\r\n\r\nconst OPPONENT = {\r\n    ROCK: 'A',\r\n    PAPER: 'B',\r\n    SCISSORS: 'C'\r\n}\r\n\r\nconst STATE = {\r\n    LOSS: 'X',\r\n    DRAW: 'Y',\r\n    WIN: 'Z'\r\n}\r\n\r\nconst ME = {\r\n    ROCK: 1,\r\n    PAPER: 2,\r\n    SCISSORS: 3\r\n}\r\n\r\nconst POINTS = {\r\n    [STATE.WIN]: 6,\r\n    [STATE.LOSS]: 0,\r\n    [STATE.DRAW]: 3\r\n}\r\n\r\nconst outcomes = {\r\n    [STATE.LOSS]: {\r\n        [OPPONENT.ROCK]: ME.SCISSORS, \r\n        [OPPONENT.PAPER]: ME.ROCK,\r\n        [OPPONENT.SCISSORS]: ME.PAPER\r\n    },\r\n    [STATE.DRAW]: {\r\n        [OPPONENT.ROCK]: ME.ROCK,\r\n        [OPPONENT.PAPER]: ME.PAPER,\r\n        [OPPONENT.SCISSORS]: ME.SCISSORS\r\n    },\r\n    [STATE.WIN]: {\r\n        [OPPONENT.ROCK]: ME.PAPER,\r\n        [OPPONENT.PAPER]: ME.SCISSORS,\r\n        [OPPONENT.SCISSORS]: ME.ROCK\r\n    }\r\n}\r\n\r\nconst calcRoundScore = (outcome, opp) => {\r\n    return outcomes[outcome][opp] + POINTS[outcome];\r\n}\r\n\r\nconsole.log(rounds.reduce((acc, [opp, outcome]) => acc += calcRoundScore(outcome, opp), 0));"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "12424",
+                                "",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
